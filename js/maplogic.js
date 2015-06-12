@@ -72,21 +72,26 @@ function pointToString(point) {
   return point.lat.toString() + ',' + point.lng.toString();
 }
 
-function permute(input) {
-  var permArr = [], usedChars = [];
-  var i, ch;
-  for (i = 0; i < input.length; i++) {
-    ch = input.splice(i, 1)[0];
-    usedChars.push(ch);
-    if (input.length == 0) {
-      permArr.push(usedChars.slice());
+function permute(inputArr) {
+  var results = [];
+
+  function permute_helper(arr, memo) {
+    var cur, memo = memo || [];
+
+    for (var i = 0; i < arr.length; i++) {
+      cur = arr.splice(i, 1);
+      if (arr.length === 0) {
+        results.push(memo.concat(cur));
+      }
+      permute_helper(arr.slice(), memo.concat(cur));
+      arr.splice(i, 0, cur[0]);
     }
-    permute(input);
-    input.splice(i, 0, ch);
-    usedChars.pop();
+
+    return results;
   }
-  return permArr
-};
+
+  return permute_helper(inputArr);
+}
 
 /**
  * Creates a H.map.Polyline from the shape of the route and adds it to the map.
