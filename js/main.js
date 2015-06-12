@@ -50,25 +50,25 @@ $(document).ready(function() {
 			id: "day-1",
 			title: "Day 1",
 			staticRouteUrl: "http://dummyimage.com/200x200/dddddd/000000.png",
-			length: "4 km",
+			length: "",
             route: waypointRoutes[0],
-			etaTime: "20:31 min"
+			etaTime: ""
 		}),
 		new Day({
 			id: "day-3",
 			title: "Day 3",
 			staticRouteUrl: "http://dummyimage.com/200x200/aaaaaa/000000.png",
-			length: "7 km",
+			length: "",
 			route:waypointRoutes[1],
-			etaTime: "45:24 min"
+			etaTime: ""
 		}),
 		new Day({
 			id: "day-7",
 			title: "Day 7",
 			staticRouteUrl: "http://dummyimage.com/200x200/ffffff/000000.png",
-			length: "8 km",
+			length: "",
 			route: waypointRoutes[2],
-			etaTime: "50:67 min"
+			etaTime: ""
 		})
 	]
 
@@ -94,6 +94,10 @@ $(document).ready(function() {
 		},
 		updateLength: function() {
 			this.$el.find("strong").html(this.model.get("length"));
+            var length = this.model.get("length");
+            var meterPerMinute = 180;
+            var speed = parseInt(length) / meterPerMinute;
+            this.$el.find("em").html(speed.toFixed(0).toString() + " min");
 		},
 		render: function() {
 			console.log("RENDERING");
