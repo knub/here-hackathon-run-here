@@ -107,7 +107,7 @@ function circleWaypoints(point) {
   var lat = parseFloat(point.lat);
   var theta = Math.random() * 2 * Math.PI;
 
-  var maxDist = 0.02;
+  var maxDist = 0.003;
   var p1 = {lat: lat - maxDist, lng: lng};
   var p2 = {lat: lat, lng: lng + maxDist};
   var p3 = {lat: lat, lng: lng + maxDist};

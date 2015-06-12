@@ -1,7 +1,7 @@
 $(document).ready(function() {
 	var from = {
-        lat: '52.399057',
-        lng: '13.108887'
+        lat: '52.393888',
+        lng: '13.133398'
     }
 
     var randomPathsFunction = function(map) {
@@ -34,6 +34,7 @@ $(document).ready(function() {
 	}
 	waypointRoutes = shuffle(waypointRoutes);
 
+	waypointRoutes[2] = randomTrip(from);
 
 	var days = [
 		new Day({
