@@ -108,10 +108,10 @@ function circleWaypoints(point) {
   var theta = Math.random() * 2 * Math.PI;
 
   var maxDist = 0.015;
-  var p1 = {lat: lat - maxDist, lng: lng};
+  var p1 = {lat: lat - maxDist, lng: lng + maxDist / 2};
   var p2 = {lat: lat, lng: lng + maxDist};
   var p3 = {lat: lat, lng: lng + maxDist};
-  var p4 = {lat: lat + maxDist, lng: lng};
+  var p4 = {lat: lat + maxDist, lng: lng + maxDist / 2};
 
   return [rotatePoint(point, p1, theta), rotatePoint(point, p2, theta), rotatePoint(point, p3, theta), rotatePoint(point, p4, theta)];
 }
