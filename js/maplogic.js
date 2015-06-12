@@ -20,6 +20,7 @@ function buildMap(mapContainer, from, callback) {
   behavior = new H.mapevents.Behavior(new H.mapevents.MapEvents(map));
 
   callback(map);
+  return map;
 }
 
 function getRouteParams(waypoints, speed) {
