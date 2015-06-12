@@ -43,11 +43,11 @@ function calculateTripFrom(map, from) {
       legAttributes: "length",                              // legend information
       returnelevation: true,                                // return elevation in shape
       walkSpeed: speed                                      // walking speed
-  };
+    };
 
-  var success = function(result) {
-    onMapSuccess(map)
-  }
+    var success = function(result) {
+      onMapSuccess(map, result);
+    }
 
     router.calculateRoute(
       routeRequestParams,
