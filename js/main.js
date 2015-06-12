@@ -76,7 +76,6 @@ $(document).ready(function() {
 
 	var DayView = Backbone.View.extend({
 		events: {
-			"change": "render",
 			"click .container": "map"
 		},
 		template: _.template($("script.day-view").html()),
@@ -85,12 +84,14 @@ $(document).ready(function() {
 		},
 
 		initialize: function() {
+			this.model.on("change:length", this.render, this);
 			this.$el = $(this.el);
 			// this.listenTo(this.model, "change", this.render);
 			this.render();
 		},
 
 		render: function() {
+			console.log("RENDERING");
 			this.$el.html(this.template(this.model.attributes));
 			var mapEl = this.$el.find(".day-maps").get(0);
 		}
