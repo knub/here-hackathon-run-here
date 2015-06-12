@@ -58,73 +58,51 @@ function showTrip(map, routeRequestParams) {
 }
 
 function calculateTripFrom(map, from) {
-  var waypoints = [pointToString(mutatePoint(from)), pointToString(mutatePoint(from)), pointToString(mutatePoint(from)), pointToString(mutatePoint(from))];
-  var permutations = permute(waypoints);
   var speed = 2.0;
 
-  for (var permutation of permutations) {
+  for (rotation of [{x: 1, y: 1}, {x: 1, y: -1}])
+  {
+    var waypoints = circleWaypoints(from, rotation);
     var router = platform.getRoutingService(),
     routeRequestParams = {
-      mode: 'shortest;pedestrian',                          // shotest/fastes , walking 
-      representation: 'display',
-      waypoint0: pointToString(from),                       // first waypoint
-      waypoint1: permutation[0],
-      waypoint2: permutation[1],
-      waypoint3: permutation[2],
-      waypoint4: pointToString(from),
-      routeattributes: 'waypoints,summary,shape,legs',      // information of response route
-      maneuverattributes: 'direction,action',               // information of response maneavere
-      legAttributes: "length",                              // legend information
-      returnelevation: true,                                // return elevation in shape
-      walkSpeed: speed                                      // walking speed
-    };
+        mode: 'shortest;pedestrian',                          // shotest/fastes , walking 
+        representation: 'display',
+        waypoint0: pointToString(from),                       // first waypoint
+        waypoint1: 'passThrough!' + pointToString(waypoints[0]),
+        waypoint2: 'passThrough!' + pointToString(waypoints[1]),
+        waypoint3: 'passThrough!' + pointToString(waypoints[2]),
+        waypoint4: pointToString(from),
+        routeattributes: 'waypoints,summary,shape,legs',      // information of response route
+        maneuverattributes: 'direction,action',               // information of response maneavere
+        legAttributes: "length",                              // legend information
+        returnelevation: true,                                // return elevation in shape
+        walkSpeed: speed                                      // walking speed
+      };
 
-    var successFunction = function(result) {
-      onMapSuccess(map, result);
-    }
+      var successFunction = function(result) {
+          onMapSuccess(map, result);
+      }
 
-    router.calculateRoute(
-      routeRequestParams,
-      successFunction,
-      onMapError
-    );
+      router.calculateRoute(
+          routeRequestParams,
+          successFunction,
+          onMapError
+     );
   }
 }
 
-function mutatePoint(point) {
+function circleWaypoints(point, rotation) {
   var newlng = parseFloat(point.lng);
   var newlat = parseFloat(point.lat);
 
   var maxDist = 0.01;
-  newlng += (Math.random() * 2.0 - 1.0) * maxDist; // mappting to [-maxDist;maxDist]
-  newlat += (Math.random() * 2.0 - 1.0) * maxDist;
-
-  return {lat: newlat, lng: newlng};
+  return [{lat: newlat + maxDist * rotation.x , lng: newlng},
+          {lat: newlat                        , lng: newlng + maxDist * rotation.y},
+          {lat: newlat + maxDist * -rotation.x, lng: newlng}];
 }
 
 function pointToString(point) {
   return point.lat.toString() + ',' + point.lng.toString();
-}
-
-function permute(inputArr) {
-  var results = [];
-
-  function permute_helper(arr, memo) {
-    var cur, memo = memo || [];
-
-    for (var i = 0; i < arr.length; i++) {
-      cur = arr.splice(i, 1);
-      if (arr.length === 0) {
-        results.push(memo.concat(cur));
-      }
-      permute_helper(arr.slice(), memo.concat(cur));
-      arr.splice(i, 0, cur[0]);
-    }
-
-    return results;
-  }
-
-  return permute_helper(inputArr);
 }
 
 /**
