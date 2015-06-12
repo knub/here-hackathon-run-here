@@ -79,7 +79,8 @@ $(document).ready(function() {
 				})
 				planThis.$el.append(dayView.$el);
 				var mapEl = $(".day-maps").last()[0];
-				buildMap(mapEl, from);
+				var map = buildMap(mapEl, from);
+				day.set("map", map);
 			});
 		}
 	});

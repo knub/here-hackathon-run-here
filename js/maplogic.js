@@ -20,6 +20,7 @@ function buildMap(mapContainer, from) {
   behavior = new H.mapevents.Behavior(new H.mapevents.MapEvents(map));
 
   calculateTripFrom(map, from);
+  return map;
 }
 
 function getRouteParams(waypoints, speed) {
