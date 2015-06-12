@@ -1,5 +1,4 @@
 $(document).ready(function() {
-
     var theMap = buildMap($("#map").get(0));
 
 	var Day = Backbone.Model.extend({
@@ -11,7 +10,6 @@ $(document).ready(function() {
 	var TrainingPlan = Backbone.Collection.extend({
 		model: Day
 	});
-
 
 	var trainingPlan = new TrainingPlan([
 		new Day({

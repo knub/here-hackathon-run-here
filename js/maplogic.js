@@ -19,30 +19,21 @@ function buildMap(mapContainer) {
   });
 
   behavior = new H.mapevents.Behavior(new H.mapevents.MapEvents(map));
-
-  // Now use the map as required...
-  calculateRouteFromAtoB(platform, map);
 }
 
+function calculateTripFrom(from) {
+  var waypoints = [pointToString(mutatePoint(from)), pointToString(mutatePoint(from)), pointToString(mutatePoint(from))];
+  var permutations = permute(waypoints);
 
-/**
- * Calculates and displays a walking route from the St Paul's Cathedral in London
- * to the Tate Modern on the south bank of the River Thames
- *
- * A full list of available request parameters can be found in the Routing API documentation.
- * see:  http://developer.here.com/rest-apis/documentation/routing/topics/resource-calculate-route.html
- *
- * @param   {H.service.Platform} platform    A stub class to access HERE services
- */
-function calculateRouteFromAtoB(platform, map) {
-  var router = platform.getRoutingService(),
+  for (var permutation of permutations) {
+    var router = platform.getRoutingService(),
     routeRequestParams = {
       mode: 'shortest;pedestrian',
       representation: 'display',
       waypoint0: pointToString(from),
-      waypoint1: pointToString(mutatePoint(from)),
-      waypoint2: pointToString(mutatePoint(from)),
-      waypoint3: pointToString(mutatePoint(from)),
+      waypoint1: permutation[0],
+      waypoint2: permutation[1],
+      waypoint3: permutation[2],
       waypoint4: pointToString(from),
       routeattributes: 'waypoints,summary,shape,legs',
       maneuverattributes: 'direction,action',
@@ -50,11 +41,12 @@ function calculateRouteFromAtoB(platform, map) {
       legAttributes: "length"
   };
 
-  router.calculateRoute(
-    routeRequestParams,
-    onSuccess,
-    onError
-  );
+    router.calculateRoute(
+      routeRequestParams,
+      onSuccess,
+      onError
+    );
+  }
 }
 
 function mutatePoint(point) {
@@ -71,6 +63,22 @@ function mutatePoint(point) {
 function pointToString(point) {
   return point.lat.toString() + ',' + point.lng.toString();
 }
+
+function permute(input) {
+  var permArr = [], usedChars = [];
+  var i, ch;
+  for (i = 0; i < input.length; i++) {
+    ch = input.splice(i, 1)[0];
+    usedChars.push(ch);
+    if (input.length == 0) {
+      permArr.push(usedChars.slice());
+    }
+    permute(input);
+    input.splice(i, 0, ch);
+    usedChars.pop();
+  }
+  return permArr
+};
 
 /**
  * Creates a H.map.Polyline from the shape of the route and adds it to the map.
