@@ -22,7 +22,12 @@ $(document).ready(function() {
 			title: "Day 1",
 			staticRouteUrl: "http://dummyimage.com/200x200/dddddd/000000.png",
 			length: "4 km",
-            route: 
+            route: ["52.393888, 13.133398",
+					"52.405200, 13.143494",
+					"52.401777, 13.123602",
+					"52.408427, 13.100900",
+					"52.399590, 13.115685",
+					"52.393888, 13.133398"]
 			etaTime: "20:31 min"
 		}),
 		new Day({
@@ -30,6 +35,12 @@ $(document).ready(function() {
 			title: "Day 3",
 			staticRouteUrl: "http://dummyimage.com/200x200/aaaaaa/000000.png",
 			length: "7 km",
+			route:["52.393888, 13.133398",
+					"52.405200, 13.143494",
+					"52.401777, 13.123602",
+					"52.408427, 13.100900",
+					"52.399590, 13.115685",
+					"52.393888, 13.133398"]
 			etaTime: "45:24 min"
 		}),
 		new Day({
@@ -37,6 +48,12 @@ $(document).ready(function() {
 			title: "Day 7",
 			staticRouteUrl: "http://dummyimage.com/200x200/ffffff/000000.png",
 			length: "8 km",
+			route: ["52.393888, 13.133398",
+					"52.405200, 13.143494",
+					"52.401777, 13.123602",
+					"52.408427, 13.100900",
+					"52.399590, 13.115685",
+					"52.393888, 13.133398"]
 			etaTime: "50:67 min"
 		})
 	]);
