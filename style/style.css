@@ -7,5 +7,17 @@
 
 .day-view {
 	background: #EEE;
-	height: 500px;
+	margin: 0;
+	padding: 0;
+}
+.day-block {
+	border-bottom: 1px dotted black;
+	margin: 0;
+}
+.day-block:hover {
+	background: #FFF;
+	cursor: pointer;
+}
+h3 {
+	margin 0;
 }

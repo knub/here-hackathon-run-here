@@ -44,7 +44,7 @@ $(document).ready(function() {
 		className: "day-block",
 
 		events: {
-			"click .day-map-view": "map",
+			"click *": "map",
 		},
 		template: _.template($("script.day-view").html()),
 		map: function() {
