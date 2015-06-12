@@ -20,18 +20,38 @@ $(document).ready(function() {
 		model: Day
 	});
 
-	var trainingPlan = new TrainingPlan([
+	var waypointRoutes = [
+	["52.393888,13.133398",					"52.405200,13.143494", "52.401777,13.123602",
+					"52.408427,13.100900",
+					"52.399590,13.115685",
+					"52.393888,13.133398"],
+					["52.393888,13.133398",
+				   "52.395688,13.131156",
+				   "52.404958,13.148214",
+				   "52.400873,13.153214",
+				   "52.396225,13.139889",
+				   "52.393888,13.133398"],
+["52.393888,13.133398",
+				    "52.406842,13.100948",
+				    "52.405611,13.085155",
+				    "52.398673,13.092580",
+				    "52.394090,13.113565",
+				    "52.393888,13.133398"]];
+
+	function shuffle(o){
+	    for(var j, x, i = o.length; i; j = Math.floor(Math.random() * i), x = o[--i], o[i] = o[j], o[j] = x);
+	    return o;
+	}
+	waypointRoutes = shuffle(waypointRoutes);
+
+
+	var days = [
 		new Day({
 			id: "day-1",
 			title: "Day 1",
 			staticRouteUrl: "http://dummyimage.com/200x200/dddddd/000000.png",
 			length: "4 km",
-            route: ["52.393888,13.133398",
-					"52.405200,13.143494",
-					"52.401777,13.123602",
-					"52.408427,13.100900",
-					"52.399590,13.115685",
-					"52.393888,13.133398"],
+            route: waypointRoutes[0],
 			etaTime: "20:31 min"
 		}),
 		new Day({
@@ -39,12 +59,7 @@ $(document).ready(function() {
 			title: "Day 3",
 			staticRouteUrl: "http://dummyimage.com/200x200/aaaaaa/000000.png",
 			length: "7 km",
-			route:["52.393888,13.133398",
-				   "52.395688,13.131156",
-				   "52.404958,13.148214",
-				   "52.400873,13.153214",
-				   "52.396225,13.139889",
-				   "52.393888,13.133398"],
+			route:waypointRoutes[1],
 			etaTime: "45:24 min"
 		}),
 		new Day({
@@ -52,19 +67,17 @@ $(document).ready(function() {
 			title: "Day 7",
 			staticRouteUrl: "http://dummyimage.com/200x200/ffffff/000000.png",
 			length: "8 km",
-			route: ["52.393888,13.133398",
-				    "52.406842,13.100948",
-				    "52.405611,13.085155",
-				    "52.398673,13.092580",
-				    "52.394090,13.113565",
-				    "52.393888,13.133398"],
+			route: waypointRoutes[2],
 			etaTime: "50:67 min"
 		})
-	]);
+	]
+
+	var trainingPlan = new TrainingPlan(days);
 
 	var DayView = Backbone.View.extend({
 		events: {
-			"click .container": "map",
+			"change": "render",
+			"click .container": "map"
 		},
 		template: _.template($("script.day-view").html()),
 		map: function() {

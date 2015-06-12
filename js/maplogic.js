@@ -200,7 +200,7 @@ function addRoute(map, result) {
   var routes = result.response.route;
   var polyline;
 
-  for (var i = 0; i < routes.length; i++) {
+  for (var i = 0; i < 1; i++) {
     var route = routes[i];
 
     polyline = addRouteShapeToMap(map, route);
