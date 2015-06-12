@@ -1,0 +1,13 @@
+
+Jogging from time to time
+Different routes because same route is boring
+
+Requirements:
+ - navigation
+ - many green places
+ - combine with exploring your city
+ - low traffic - not too loud
+ - few traffic lights - you do not want to stop
+ 
+If you go further:
+ - special use case: you want to run with another person, who is a little bit fitter than you
