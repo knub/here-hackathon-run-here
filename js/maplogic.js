@@ -43,11 +43,11 @@ function getRouteParams(waypoints, speed) {
     return routeRequestParams;
 }
 
-function showTrip(map, routeRequestParams) {
+function showTrip(map, routeRequestParams, day) {
   var router = platform.getRoutingService();
 
   var successFunction = function(result) {
-    onMapSuccess(map, result);
+    onMapSuccess(map, result, day);
   }
 
   router.calculateRoute(
@@ -58,73 +58,67 @@ function showTrip(map, routeRequestParams) {
 }
 
 function calculateTripFrom(map, from) {
-  var waypoints = [pointToString(mutatePoint(from)), pointToString(mutatePoint(from)), pointToString(mutatePoint(from)), pointToString(mutatePoint(from))];
-  var permutations = permute(waypoints);
   var speed = 2.0;
 
-  for (var permutation of permutations) {
+  for (var i = 0; i < 3; ++i)
+  {
+    var waypoints = circleWaypoints(from);
     var router = platform.getRoutingService(),
     routeRequestParams = {
-      mode: 'shortest;pedestrian',                          // shotest/fastes , walking 
-      representation: 'display',
-      waypoint0: pointToString(from),                       // first waypoint
-      waypoint1: permutation[0],
-      waypoint2: permutation[1],
-      waypoint3: permutation[2],
-      waypoint4: pointToString(from),
-      routeattributes: 'waypoints,summary,shape,legs',      // information of response route
-      maneuverattributes: 'direction,action',               // information of response maneavere
-      legAttributes: "length",                              // legend information
-      returnelevation: true,                                // return elevation in shape
-      walkSpeed: speed                                      // walking speed
-    };
+        mode: 'shortest;pedestrian',                          // shotest/fastes , walking 
+        representation: 'display',
+        waypoint0: pointToString(from),                       // first waypoint
+        waypoint1: 'passThrough!' + pointToString(waypoints[0]),
+        waypoint2: 'passThrough!' + pointToString(waypoints[1]),
+        waypoint3: 'passThrough!' + pointToString(waypoints[2]),
+        waypoint4: pointToString(from),
+        routeattributes: 'waypoints,summary,shape,legs',      // information of response route
+        maneuverattributes: 'direction,action',               // information of response maneavere
+        legAttributes: "length",                              // legend information
+        returnelevation: true,                                // return elevation in shape
+        walkSpeed: speed                                      // walking speed
+      };
 
-    var successFunction = function(result) {
-      onMapSuccess(map, result);
-    }
+      var successFunction = function(result) {
+          onMapSuccess(map, result);
+      }
 
-    router.calculateRoute(
-      routeRequestParams,
-      successFunction,
-      onMapError
-    );
+      router.calculateRoute(
+          routeRequestParams,
+          successFunction,
+          onMapError
+     );
   }
 }
 
-function mutatePoint(point) {
-  var newlng = parseFloat(point.lng);
-  var newlat = parseFloat(point.lat);
+function circleWaypoints(point) {
+  var lng = parseFloat(point.lng);
+  var lat = parseFloat(point.lat);
+  var theta = Math.random() * 2 * Math.PI;
 
-  var maxDist = 0.01;
-  newlng += (Math.random() * 2.0 - 1.0) * maxDist; // mappting to [-maxDist;maxDist]
-  newlat += (Math.random() * 2.0 - 1.0) * maxDist;
+  var maxDist = 0.02;
+  var p1 = {lat: lat - maxDist, lng: lng};
+  var p2 = {lat: lat, lng: lng + maxDist};
+  var p3 = {lat: lat + maxDist, lng: lng};
 
-  return {lat: newlat, lng: newlng};
+  return [rotatePoint(point, p1, theta), rotatePoint(point, p2, theta), rotatePoint(point, p3, theta)];
+}
+
+function rotatePoint(orig, point, theta) {
+  var ox = parseFloat(orig.lng); // x
+  var oy = parseFloat(orig.lat); // y
+
+  var x = parseFloat(point.lng);
+  var y = parseFloat(point.lat);
+
+  var nx = Math.cos(theta) * (x-ox) - Math.sin(theta) * (y-oy) + ox;
+  var ny = Math.sin(theta) * (x-ox) + Math.cos(theta) * (y-oy) + oy;
+
+  return {lng: nx, lat: ny};
 }
 
 function pointToString(point) {
   return point.lat.toString() + ',' + point.lng.toString();
-}
-
-function permute(inputArr) {
-  var results = [];
-
-  function permute_helper(arr, memo) {
-    var cur, memo = memo || [];
-
-    for (var i = 0; i < arr.length; i++) {
-      cur = arr.splice(i, 1);
-      if (arr.length === 0) {
-        results.push(memo.concat(cur));
-      }
-      permute_helper(arr.slice(), memo.concat(cur));
-      arr.splice(i, 0, cur[0]);
-    }
-
-    return results;
-  }
-
-  return permute_helper(inputArr);
 }
 
 /**
@@ -194,7 +188,7 @@ function addRoute(map, result) {
   var routes = result.response.route;
   var polyline;
 
-  for (var i = 0; i < routes.length; i++) {
+  for (var i = 0; i < 1; i++) {
     var route = routes[i];
 
     polyline = addRouteShapeToMap(map, route);
