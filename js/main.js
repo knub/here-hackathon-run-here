@@ -76,6 +76,38 @@ $(document).ready(function() {
                 mainMap.removeObject(mainMap.getObjects()[0]); 
             });
             showTrip(mainMap, getRouteParams(this.model.get("route") , 2.0));
+
+
+
+            // Get context with jQuery - using jQuery's .get() method.
+            var ctx = $("#heightMap").get(0).getContext("2d");
+            // This will get the first returned node in the jQuery collection.
+            var heights = this.model.get("heights");
+            var x = [];
+            for (var i = 0; i < heights.length; i++) {
+            	x.push(i);
+            }
+            var data = {
+                labels: x,
+                datasets: [
+                    {
+                        label: "Height profil",
+                        fillColor: "rgba(220,220,220,0.2)",
+                        strokeColor: "rgba(220,220,220,1)",
+                        pointColor: "rgba(220,220,220,1)",
+                        pointStrokeColor: "#fff",
+                        pointHighlightFill: "#fff",
+                        pointHighlightStroke: "rgba(220,220,220,1)",
+                        data: heights
+                    }
+                ]
+            };
+         //    Chart.defaults.global = {
+        	//     showTooltips: false
+        	// };
+            var chart = new Chart(ctx).Line(data, {
+			    bezierCurve: false
+			});
 		},
 
 		initialize: function() {
@@ -166,6 +198,7 @@ function onMapSuccess(map, result, day) {
   		var line = result.response.route[0].shape[i];
   		heights.push(parseFloat(line.split(",")[2]));
   	}
+  	day.set("heights", heights);
 
   	console.log(heights);
   }
