@@ -47,6 +47,9 @@ $(document).ready(function() {
  */
 function onSuccess(result) {
   addRoute(result);
+  var maneuver = result.response.route[0].leg[0].maneuver[0];
+  var pos = {lat: maneuver.position.latitude, lng: maneuver.position.longitude};
+  addDraggableMarker(pos);
 }
 
 function onError(error) {

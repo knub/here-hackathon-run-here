@@ -3,8 +3,7 @@ var dayViewContainer;
 var platform;
 var defaultLayers;
 var map;
-
-
+var behavior;
 
 function initMap() {
   /**
@@ -30,6 +29,8 @@ function initMap() {
     center: {lat:52.399057, lng:13.108887},
     zoom: 13
   });
+
+  behavior = new H.mapevents.Behavior(new H.mapevents.MapEvents(map));
 
   // Now use the map as required...
   calculateRouteFromAtoB (platform);
@@ -143,6 +144,47 @@ function addRoute(result) {
   */
   addRouteShapeToMap(route);
   addManueversToMap(route);
+}
+
+/**
+ * Adds a  draggable marker to the map..
+ *
+ * @param {H.mapevents.Behavior} behavior  Behavior implements
+ *                                         default interactions for pan/zoom
+ */
+function addDraggableMarker(position) {
+  var marker = new H.map.Marker(position);
+  // Ensure that the marker can receive drag events
+  marker.draggable = true;
+  map.addObject(marker);
+
+  // disable the default draggability of the underlying map
+  // when starting to drag a marker object:
+  map.addEventListener('dragstart', function(ev) {
+    var target = ev.target;
+    if (target instanceof H.map.Marker) {
+      behavior.disable();
+    }
+  }, false);
+
+  // re-enable the default draggability of the underlying map
+  // when dragging has completed
+  map.addEventListener('dragend', function(ev) {
+    var target = ev.target;
+    if (target instanceof mapsjs.map.Marker) {
+      behavior.enable();
+    }
+  }, false);
+
+  // Listen to the drag event and move the position of the marker
+  // as necessary
+   map.addEventListener('drag', function(ev) {
+    var target = ev.target,
+        pointer = ev.currentPointer;
+    if (target instanceof mapsjs.map.Marker) {
+      target.setPosition(map.screenToGeo(pointer.viewportX, pointer.viewportY));
+    }
+  }, false);
 }
 
 Number.prototype.toMMSS = function () {
