@@ -13,8 +13,8 @@ function buildMap(mapContainer, from, callback) {
   // Step 2
   var map = new H.Map(mapContainer,
     defaultLayers.normal.map,{
-    center: { lat:52.399057, lng: 13.108887 },
-    zoom: 13
+    center: { lat:52.399057, lng: 13.108887 }
+    // zoom: 13
   });
 
   behavior = new H.mapevents.Behavior(new H.mapevents.MapEvents(map));
@@ -149,8 +149,7 @@ function addRouteShapeToMap(map, route){
   });
   // Add the polyline to the map
   map.addObject(polyline);
-  // And zoom to its bounding rectangle
-  map.setViewBounds(polyline.getBounds(), true);
+  return polyline;
 }
 
 
@@ -199,13 +198,16 @@ function addManueversToMap(map, route){
 
 function addRoute(map, result) {
   var routes = result.response.route;
+  var polyline;
 
   for (var i = 0; i < routes.length; i++) {
     var route = routes[i];
 
-    addRouteShapeToMap(map, route);
+    polyline = addRouteShapeToMap(map, route);
     addManueversToMap(map, route);
   }
+  // And zoom to its bounding rectangle
+  map.setViewBounds(polyline.getBounds(), false);
 }
 function getRandomColor() {
     var letters = '0123456789ABCDEF'.split('');
