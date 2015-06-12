@@ -150,7 +150,7 @@ function addRouteShapeToMap(map, route){
   polyline = new H.map.Polyline(strip, {
     style: {
       lineWidth: 4,
-      strokeColor: getRandomColor()
+      strokeColor: "#1A468D"
     }
   });
   // Add the polyline to the map
