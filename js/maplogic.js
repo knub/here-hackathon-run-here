@@ -1,9 +1,8 @@
-var mapContainer;
 var behavior;
-var map;
+var platform;
 
 function buildMap(mapContainer, from) {
-  var platform = new H.service.Platform({
+  platform = new H.service.Platform({
     app_id: 'DemoAppId01082013GAL',
     app_code: 'AJKnXv84fjrb0KIHawS0Tg',
     useCIT: true,
@@ -12,7 +11,7 @@ function buildMap(mapContainer, from) {
   var defaultLayers = platform.createDefaultLayers();
 
   // Step 2
-  map = new H.Map(mapContainer,
+  var map = new H.Map(mapContainer,
     defaultLayers.normal.map,{
     center: { lat:52.399057, lng: 13.108887 },
     zoom: 13

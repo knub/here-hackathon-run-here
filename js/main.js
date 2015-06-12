@@ -1,8 +1,10 @@
 $(document).ready(function() {
-    var theMap = buildMap($("#map").get(0), {
+	var from = {
         lat: '52.399057',
         lng: '13.108887'
-    });
+    }
+
+    var theMap = buildMap($("#map").get(0), from);
 
 	var Day = Backbone.Model.extend({
 		defaults: {
@@ -37,7 +39,7 @@ $(document).ready(function() {
 		className: "day-block",
 
 		events: {
-			"click *": "map",
+			"click .day-block": "map",
 		},
 		template: _.template($("script.day-view").html()),
 		map: function() {
@@ -53,7 +55,7 @@ $(document).ready(function() {
 		render: function() {
 			this.$el.html(this.template(this.model.attributes));
 			var mapEl = this.$el.find(".day-maps").get(0);
-			// buildMap(mapEl);
+			buildMap(mapEl, from);
 		}
 	});
 
