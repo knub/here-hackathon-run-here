@@ -1,14 +1,5 @@
 $(document).ready(function() {
-
-    initMap();
-
-
-
-
-
-
-
-
+    var theMap = buildMap($("#map").get(0));
 
 	var Day = Backbone.Model.extend({
 		defaults: {
@@ -19,7 +10,6 @@ $(document).ready(function() {
 	var TrainingPlan = Backbone.Collection.extend({
 		model: Day
 	});
-
 
 	var trainingPlan = new TrainingPlan([
 		new Day({
@@ -59,6 +49,8 @@ $(document).ready(function() {
 
 		render: function() {
 			this.$el.html(this.template(this.model.attributes));
+			var mapEl = this.$el.find(".day-maps").get(0);
+			// buildMap(mapEl);
 		}
 	});
 
@@ -82,13 +74,15 @@ $(document).ready(function() {
 		el: $(".day-view")
 	});
 
-
-
-
-
-
-
+  	calculateTripFrom ({
+        lat: '52.399057',
+        lng: '13.108887'
+    });
 });
+
+
+
+
 /**
  * This function will be called once the Routing REST API provides a response
  * @param  {Object} result          A JSONP object representing the calculated route

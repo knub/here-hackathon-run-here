@@ -13,9 +13,10 @@
 .day-block {
 	border-bottom: 1px dotted black;
 	margin: 0;
+	padding: 10px;
 }
 .day-block:hover {
-	background: #FFF;
+	background: #F6F6F6;
 	cursor: pointer;
 }
 h3 {
