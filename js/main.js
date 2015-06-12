@@ -21,12 +21,12 @@ $(document).ready(function() {
 	});
 
 	var waypointRoutes = [
-		["52.393888,13.133398", "52.405200,13.143494", "52.401777,13.123602",
-		"52.408427,13.100900", "52.399590,13.115685", "52.393888,13.133398"],
-		["52.393888,13.133398", "52.395688,13.131156", "52.404958,13.148214",
- 	    "52.400873,13.153214", "52.396225,13.139889", "52.393888,13.133398"],
-		["52.393888,13.133398", "52.406842,13.100948", "52.405611,13.085155",
-	    "52.398673,13.092580", "52.394090,13.113565", "52.393888,13.133398"]];
+		["52.393888,13.133398", "passThrough!2.405200,13.143494", "passThrough!52.401777,13.123602",
+		"passThrough!52.408427,13.100900", "passThrough!52.399590,13.115685", "52.393888,13.133398"],
+		["52.393888,13.133398", "passThrough!52.395688,13.131156", "passThrough!52.404958,13.148214",
+ 	    "passThrough!52.400873,13.153214", "passThrough!52.396225,13.139889", "52.393888,13.133398"],
+		["52.393888,13.133398", "passThrough!52.406842,13.100948", "passThrough!52.405611,13.085155",
+	    "passThrough!52.398673,13.092580", "passThrough!52.394090,13.113565", "52.393888,13.133398"]];
 
 	function shuffle(o){
 	    for(var j, x, i = o.length; i; j = Math.floor(Math.random() * i), x = o[--i], o[i] = o[j], o[j] = x);
@@ -79,6 +79,38 @@ $(document).ready(function() {
                 mainMap.removeObject(mainMap.getObjects()[0]); 
             });
             showTrip(mainMap, getRouteParams(this.model.get("route") , 2.0));
+
+
+
+            // Get context with jQuery - using jQuery's .get() method.
+            var ctx = $("#heightMap").get(0).getContext("2d");
+            // This will get the first returned node in the jQuery collection.
+            var heights = this.model.get("heights");
+            var x = [];
+            for (var i = 0; i < heights.length; i++) {
+            	x.push(i);
+            }
+            var data = {
+                labels: x,
+                datasets: [
+                    {
+                        label: "Height profil",
+                        fillColor: "rgba(220,220,220,0.2)",
+                        strokeColor: "rgba(220,220,220,1)",
+                        pointColor: "rgba(220,220,220,1)",
+                        pointStrokeColor: "#fff",
+                        pointHighlightFill: "#fff",
+                        pointHighlightStroke: "rgba(220,220,220,1)",
+                        data: heights
+                    }
+                ]
+            };
+         //    Chart.defaults.global = {
+        	//     showTooltips: false
+        	// };
+            var chart = new Chart(ctx).Line(data, {
+			    bezierCurve: false
+			});
 		},
 
 		initialize: function() {
@@ -169,6 +201,7 @@ function onMapSuccess(map, result, day) {
   		var line = result.response.route[0].shape[i];
   		heights.push(parseFloat(line.split(",")[2]));
   	}
+  	day.set("heights", heights);
 
   	console.log(heights);
   }

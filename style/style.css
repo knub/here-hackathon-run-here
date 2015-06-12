@@ -3,12 +3,14 @@
     box-sizing: border-box;
 }
 .map-view {
-	position: relative;
-}
-.foo {
-	position: fixed;
+	/*position: relative;*/
 	width: 60%;
 	height: 90%;
+}
+.foo {
+	/*position: fixed;*/
+	/*width: 60%;*/
+	/*height: 90%;*/
 }
 
 .day-view {
