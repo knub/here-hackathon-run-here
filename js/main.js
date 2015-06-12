@@ -84,12 +84,14 @@ $(document).ready(function() {
 		},
 
 		initialize: function() {
-			this.model.on("change:length", this.render, this);
+			this.model.on("change:length", this.updateLength, this);
 			this.$el = $(this.el);
 			// this.listenTo(this.model, "change", this.render);
 			this.render();
 		},
-
+		updateLength: function() {
+			this.$el.find("strong").html(this.model.get("length"));
+		},
 		render: function() {
 			console.log("RENDERING");
 			this.$el.html(this.template(this.model.attributes));
@@ -114,7 +116,7 @@ $(document).ready(function() {
 				var mapEl = $(".day-maps").last()[0];
 
                 var showTripFunction = function(map) {
-                    showTrip(map, getRouteParams(day.get("route") , 2.0));
+                    showTrip(map, getRouteParams(day.get("route"), 2.0), day);
                 }
 
 				var map = buildMap(mapEl, from, showTripFunction);
@@ -139,8 +141,18 @@ $(document).ready(function() {
  *
  * see: http://developer.here.com/rest-apis/documentation/routing/topics/resource-type-calculate-route.html
  */
-function onMapSuccess(map, result) {
+function onMapSuccess(map, result, day) {
   addRoute(map, result);
+  if (day) {
+  	console.log(day.get("id"));
+  	var legs = result.response.route[0].leg;
+  	var length = 0;
+  	for (var i = 0; i < legs.length; i++) {
+  		var legLength = legs[i].length;
+  		length = length + legLength;
+  	}
+  	day.set("length", length + " m");
+  }
   var maneuver = result.response.route[0].leg[0].maneuver[0];
   var pos = {lat: maneuver.position.latitude, lng: maneuver.position.longitude};
   //addDraggableMarker(pos);

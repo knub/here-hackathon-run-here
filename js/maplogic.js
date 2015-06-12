@@ -43,11 +43,11 @@ function getRouteParams(waypoints, speed) {
     return routeRequestParams;
 }
 
-function showTrip(map, routeRequestParams) {
+function showTrip(map, routeRequestParams, day) {
   var router = platform.getRoutingService();
 
   var successFunction = function(result) {
-    onMapSuccess(map, result);
+    onMapSuccess(map, result, day);
   }
 
   router.calculateRoute(
