@@ -57,6 +57,16 @@ function showTrip(map, routeRequestParams, day) {
   );
 }
 
+function randomTrip(from) {
+  var waypoints = circleWaypoints(from);
+  return [pointToString(from),
+         'passThrough!' + pointToString(waypoints[0]),
+         'passThrough!' + pointToString(waypoints[1]),
+         'passThrough!' + pointToString(waypoints[2]),
+         'passThrough!' + pointToString(waypoints[3]),
+         pointToString(from)]
+}
+
 function calculateTripFrom(map, from) {
   var speed = 2.0;
 
@@ -71,7 +81,8 @@ function calculateTripFrom(map, from) {
         waypoint1: 'passThrough!' + pointToString(waypoints[0]),
         waypoint2: 'passThrough!' + pointToString(waypoints[1]),
         waypoint3: 'passThrough!' + pointToString(waypoints[2]),
-        waypoint4: pointToString(from),
+        waypoint4: 'passThrough!' + pointToString(waypoints[3]),
+        waypoint5: pointToString(from),
         routeattributes: 'waypoints,summary,shape,legs',      // information of response route
         maneuverattributes: 'direction,action',               // information of response maneavere
         legAttributes: "length",                              // legend information
@@ -96,12 +107,13 @@ function circleWaypoints(point) {
   var lat = parseFloat(point.lat);
   var theta = Math.random() * 2 * Math.PI;
 
-  var maxDist = 0.02;
+  var maxDist = 0.003;
   var p1 = {lat: lat - maxDist, lng: lng};
   var p2 = {lat: lat, lng: lng + maxDist};
-  var p3 = {lat: lat + maxDist, lng: lng};
+  var p3 = {lat: lat, lng: lng + maxDist};
+  var p4 = {lat: lat + maxDist, lng: lng};
 
-  return [rotatePoint(point, p1, theta), rotatePoint(point, p2, theta), rotatePoint(point, p3, theta)];
+  return [rotatePoint(point, p1, theta), rotatePoint(point, p2, theta), rotatePoint(point, p3, theta), rotatePoint(point, p4, theta)];
 }
 
 function rotatePoint(orig, point, theta) {

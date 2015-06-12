@@ -1,7 +1,7 @@
 $(document).ready(function() {
 	var from = {
-        lat: '52.399057',
-        lng: '13.108887'
+        lat: '52.393888',
+        lng: '13.133398'
     }
 
     var randomPathsFunction = function(map) {
@@ -21,22 +21,12 @@ $(document).ready(function() {
 	});
 
 	var waypointRoutes = [
-	["52.393888,13.133398",					"52.405200,13.143494", "52.401777,13.123602",
-					"52.408427,13.100900",
-					"52.399590,13.115685",
-					"52.393888,13.133398"],
-					["52.393888,13.133398",
-				   "52.395688,13.131156",
-				   "52.404958,13.148214",
-				   "52.400873,13.153214",
-				   "52.396225,13.139889",
-				   "52.393888,13.133398"],
-["52.393888,13.133398",
-				    "52.406842,13.100948",
-				    "52.405611,13.085155",
-				    "52.398673,13.092580",
-				    "52.394090,13.113565",
-				    "52.393888,13.133398"]];
+		["52.393888,13.133398", "52.405200,13.143494", "52.401777,13.123602",
+		"52.408427,13.100900", "52.399590,13.115685", "52.393888,13.133398"],
+		["52.393888,13.133398", "52.395688,13.131156", "52.404958,13.148214",
+ 	    "52.400873,13.153214", "52.396225,13.139889", "52.393888,13.133398"],
+		["52.393888,13.133398", "52.406842,13.100948", "52.405611,13.085155",
+	    "52.398673,13.092580", "52.394090,13.113565", "52.393888,13.133398"]];
 
 	function shuffle(o){
 	    for(var j, x, i = o.length; i; j = Math.floor(Math.random() * i), x = o[--i], o[i] = o[j], o[j] = x);
@@ -44,6 +34,7 @@ $(document).ready(function() {
 	}
 	waypointRoutes = shuffle(waypointRoutes);
 
+	waypointRoutes[2] = randomTrip(from);
 
 	var days = [
 		new Day({
@@ -75,6 +66,7 @@ $(document).ready(function() {
 	var trainingPlan = new TrainingPlan(days);
 
 	var DayView = Backbone.View.extend({
+		className: "day-block",
 		events: {
 			"click .container": "map"
 		},
@@ -140,6 +132,11 @@ $(document).ready(function() {
 });
 
 
+// Returns a random integer between min (included) and max (excluded)
+// Using Math.round() will give you a non-uniform distribution!
+function getRandomInt(min, max) {
+  return Math.floor(Math.random() * (max - min)) + min;
+}
 
 
 /**
@@ -158,7 +155,19 @@ function onMapSuccess(map, result, day) {
   		var legLength = legs[i].length;
   		length = length + legLength;
   	}
+  	length = length + getRandomInt(-200, 200);
   	day.set("length", length + " m");
+
+
+
+
+  	var heights = [];
+  	for (var i = 0; i < result.response.route[0].shape.length; i++) {
+  		var line = result.response.route[0].shape[i];
+  		heights.push(parseFloat(line.split(",")[2]));
+  	}
+
+  	console.log(heights);
   }
   var maneuver = result.response.route[0].leg[0].maneuver[0];
   var pos = {lat: maneuver.position.latitude, lng: maneuver.position.longitude};
