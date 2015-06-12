@@ -42,42 +42,13 @@ function calculateRouteFromAtoB (platform) {
       maneuverattributes: 'direction,action'
     };
 
-
   router.calculateRoute(
     routeRequestParams,
     onSuccess,
     onError
   );
 }
-/**
- * This function will be called once the Routing REST API provides a response
- * @param  {Object} result          A JSONP object representing the calculated route
- *
- * see: http://developer.here.com/rest-apis/documentation/routing/topics/resource-type-calculate-route.html
- */
-function onSuccess(result) {
-  var route = result.response.route[0];
- /*
-  * The styling of the route response on the map is entirely under the developer's control.
-  * A representitive styling can be found the full JS + HTML code of this example
-  * in the functions below:
-  */
-  addRouteShapeToMap(route);
-  addManueversToMap(route);
 
-  addWaypointsToPanel(route.waypoint);
-  addManueversToPanel(route);
-  addSummaryToPanel(route.summary);
-  // ... etc.
-}
-
-/**
- * This function will be called if a communication error occurs during the JSON-P request
- * @param  {Object} error  The error message received.
- */
-function onError(error) {
-  alert('Ooops!');
-}
 
 /**
  * Creates a H.map.Polyline from the shape of the route and adds it to the map.
@@ -147,6 +118,17 @@ function addManueversToMap(route){
 
   // Add the maneuvers group to the map
   map.addObject(group);
+}
+
+function initMap() {
+  var route = result.response.route[0];
+ /*
+  * The styling of the route response on the map is entirely under the developer's control.
+  * A representitive styling can be found the full JS + HTML code of this example
+  * in the functions below:
+  */
+  addRouteShapeToMap(route);
+  addManueversToMap(route);
 }
 
 Number.prototype.toMMSS = function () {
