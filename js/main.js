@@ -1,7 +1,7 @@
 $(document).ready(function() {
 
-    initMap();
-    
+    var theMap = buildMap($("#map").get(0));
+
 	var Day = Backbone.Model.extend({
 		defaults: {
 			"weatherForecast": "sunny"
@@ -51,6 +51,8 @@ $(document).ready(function() {
 
 		render: function() {
 			this.$el.html(this.template(this.model.attributes));
+			var mapEl = this.$el.find(".day-maps").get(0);
+			// buildMap(mapEl);
 		}
 	});
 
@@ -79,6 +81,10 @@ $(document).ready(function() {
         lng: '13.108887'
     });
 });
+
+
+
+
 /**
  * This function will be called once the Routing REST API provides a response
  * @param  {Object} result          A JSONP object representing the calculated route

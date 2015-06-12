@@ -1,39 +1,40 @@
 var mapContainer;
-var dayViewContainer;
-var platform;
-var defaultLayers;
-var map;
 var behavior;
+var map;
 
-function initMap() {
-  /**
-   * Boilerplate map initialization code starts below:
-   */
-
-  // set up containers for the map  + panel
-  mapContainer = document.getElementById('map');
-  dayViewContainer = document.getElementById('day-view');
-
-  //Step 1: initialize communication with the platform
-  platform = new H.service.Platform({
+function buildMap(mapContainer) {
+  var platform = new H.service.Platform({
     app_id: 'DemoAppId01082013GAL',
     app_code: 'AJKnXv84fjrb0KIHawS0Tg',
     useCIT: true,
     useHTTPS: true
   });
-  defaultLayers = platform.createDefaultLayers();
+  var defaultLayers = platform.createDefaultLayers();
 
-  //Step 2: initialize a map - this map is centered over Berlin
+  // Step 2
   map = new H.Map(mapContainer,
     defaultLayers.normal.map,{
-    center: {lat:52.399057, lng:13.108887},
+    center: { lat:52.399057, lng: 13.108887 },
     zoom: 13
   });
 
   behavior = new H.mapevents.Behavior(new H.mapevents.MapEvents(map));
+
+  // Now use the map as required...
+  calculateRouteFromAtoB(platform, map);
 }
 
-function calculateTripFrom(from) {
+
+/**
+ * Calculates and displays a walking route from the St Paul's Cathedral in London
+ * to the Tate Modern on the south bank of the River Thames
+ *
+ * A full list of available request parameters can be found in the Routing API documentation.
+ * see:  http://developer.here.com/rest-apis/documentation/routing/topics/resource-calculate-route.html
+ *
+ * @param   {H.service.Platform} platform    A stub class to access HERE services
+ */
+function calculateRouteFromAtoB(platform, map) {
   var router = platform.getRoutingService(),
     routeRequestParams = {
       mode: 'shortest;pedestrian',
@@ -47,7 +48,7 @@ function calculateTripFrom(from) {
       maneuverattributes: 'direction,action',
       alternatives: 3,
       legAttributes: "length"
-    };
+  };
 
   router.calculateRoute(
     routeRequestParams,
@@ -88,7 +89,7 @@ function addRouteShapeToMap(route){
   polyline = new H.map.Polyline(strip, {
     style: {
       lineWidth: 4,
-      strokeColor: 'rgba(0, 128, 255, 0.7)'
+      strokeColor: getRandomColor()
     }
   });
   // Add the polyline to the map
@@ -150,6 +151,14 @@ function addRoute(result) {
     addRouteShapeToMap(route);
     addManueversToMap(route);
   }
+}
+function getRandomColor() {
+    var letters = '0123456789ABCDEF'.split('');
+    var color = '#';
+    for (var i = 0; i < 6; i++ ) {
+        color += letters[Math.floor(Math.random() * 16)];
+    }
+    return color;
 }
 
 /**
