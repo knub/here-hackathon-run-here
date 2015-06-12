@@ -31,28 +31,18 @@ function initMap() {
   });
 
   behavior = new H.mapevents.Behavior(new H.mapevents.MapEvents(map));
-
-  // Now use the map as required...
-  calculateRouteFromAtoB (platform);
 }
 
-
-/**
- * Calculates and displays a walking route from the St Paul's Cathedral in London
- * to the Tate Modern on the south bank of the River Thames
- *
- * A full list of available request parameters can be found in the Routing API documentation.
- * see:  http://developer.here.com/rest-apis/documentation/routing/topics/resource-calculate-route.html
- *
- * @param   {H.service.Platform} platform    A stub class to access HERE services
- */
-function calculateRouteFromAtoB (platform) {
+function calculateTripFrom(from) {
   var router = platform.getRoutingService(),
     routeRequestParams = {
       mode: 'shortest;pedestrian',
       representation: 'display',
-      waypoint0: '52.399057,13.108887',
-      waypoint1: '52.408813,13.088856',
+      waypoint0: pointToString(from),
+      waypoint1: pointToString(mutatePoint(from)),
+      waypoint2: pointToString(mutatePoint(from)),
+      waypoint3: pointToString(mutatePoint(from)),
+      waypoint4: pointToString(from),
       routeattributes: 'waypoints,summary,shape,legs',
       maneuverattributes: 'direction,action',
       alternatives: 3,
@@ -66,6 +56,20 @@ function calculateRouteFromAtoB (platform) {
   );
 }
 
+function mutatePoint(point) {
+  var newlng = parseFloat(point.lng);
+  var newlat = parseFloat(point.lat);
+
+  var maxDist = 0.005;
+  newlng += (Math.random() * 2.0 - 1.0) * maxDist; // mappting to [-maxDist;maxDist]
+  newlat += (Math.random() * 2.0 - 1.0) * maxDist;
+
+  return {lat: newlat, lng: newlng};
+}
+
+function pointToString(point) {
+  return point.lat.toString() + ',' + point.lng.toString();
+}
 
 /**
  * Creates a H.map.Polyline from the shape of the route and adds it to the map.

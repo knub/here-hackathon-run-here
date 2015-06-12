@@ -1,15 +1,7 @@
 $(document).ready(function() {
 
     initMap();
-
-
-
-
-
-
-
-
-
+    
 	var Day = Backbone.Model.extend({
 		defaults: {
 			"weatherForecast": "sunny"
@@ -82,12 +74,10 @@ $(document).ready(function() {
 		el: $(".day-view")
 	});
 
-
-
-
-
-
-
+  	calculateTripFrom ({
+        lat: '52.399057',
+        lng: '13.108887'
+    });
 });
 /**
  * This function will be called once the Routing REST API provides a response
