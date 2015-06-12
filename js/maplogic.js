@@ -120,7 +120,7 @@ function addManueversToMap(route){
   map.addObject(group);
 }
 
-function initMap() {
+function initMap(result) {
   var route = result.response.route[0];
  /*
   * The styling of the route response on the map is entirely under the developer's control.
