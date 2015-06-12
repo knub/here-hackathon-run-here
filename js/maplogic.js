@@ -1,26 +1,40 @@
-/**
- * Boilerplate map initialization code starts below:
- */
+var mapContainer;
+var dayViewContainer;
+var platform;
+var defaultLayers;
+var map;
 
-// set up containers for the map  + panel
-var mapContainer = document.getElementById('map'),
+
+
+function initMap() {
+  /**
+   * Boilerplate map initialization code starts below:
+   */
+
+  // set up containers for the map  + panel
+  mapContainer = document.getElementById('map');
   dayViewContainer = document.getElementById('day-view');
 
-//Step 1: initialize communication with the platform
-var platform = new H.service.Platform({
-  app_id: 'DemoAppId01082013GAL',
-  app_code: 'AJKnXv84fjrb0KIHawS0Tg',
-  useCIT: true,
-  useHTTPS: true
-});
-var defaultLayers = platform.createDefaultLayers();
+  //Step 1: initialize communication with the platform
+  platform = new H.service.Platform({
+    app_id: 'DemoAppId01082013GAL',
+    app_code: 'AJKnXv84fjrb0KIHawS0Tg',
+    useCIT: true,
+    useHTTPS: true
+  });
+  defaultLayers = platform.createDefaultLayers();
 
-//Step 2: initialize a map - this map is centered over Berlin
-var map = new H.Map(mapContainer,
-  defaultLayers.normal.map,{
-  center: {lat:52.5160, lng:13.3779},
-  zoom: 13
-});
+  //Step 2: initialize a map - this map is centered over Berlin
+  map = new H.Map(mapContainer,
+    defaultLayers.normal.map,{
+    center: {lat:52.5160, lng:13.3779},
+    zoom: 13
+  });
+
+  // Now use the map as required...
+  calculateRouteFromAtoB (platform);
+}
+
 
 /**
  * Calculates and displays a walking route from the St Paul's Cathedral in London
@@ -120,7 +134,7 @@ function addManueversToMap(route){
   map.addObject(group);
 }
 
-function initMap(result) {
+function addRoute(result) {
   var route = result.response.route[0];
  /*
   * The styling of the route response on the map is entirely under the developer's control.
