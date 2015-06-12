@@ -53,7 +53,7 @@ $(document).ready(function() {
 			length: "",
 			route:waypointRoutes[1],
 			etaTime: "",
-            weather: "img/cloudy.png"
+            weather: "img/rainy.png"
 		}),
 		new Day({
 			id: "day-7",
@@ -62,7 +62,7 @@ $(document).ready(function() {
 			length: "",
 			route: waypointRoutes[2],
 			etaTime: "",
-            weather: "img/rainy.png"
+            weather: "img/cloudy.png"
 		})
 	]
 
