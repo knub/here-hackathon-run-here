@@ -83,12 +83,18 @@ $(document).ready(function() {
 
 
             // Get context with jQuery - using jQuery's .get() method.
+            $("#heightMap").remove();
+            $(".map-view").append("<canvas id='heightMap' style='width: 90%; height: 400px'></canvas>");
             var ctx = $("#heightMap").get(0).getContext("2d");
             // This will get the first returned node in the jQuery collection.
             var heights = this.model.get("heights");
             var x = [];
+            var newHeights = [];
             for (var i = 0; i < heights.length; i++) {
-            	x.push(i);
+            	if (i % 4 == 0) {
+	            	x.push(Math.round((i * 100) / heights.length));
+	            	newHeights.push(heights[i]);
+	            }
             }
             var data = {
                 labels: x,
