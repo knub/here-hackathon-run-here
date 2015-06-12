@@ -43,7 +43,8 @@ $(document).ready(function() {
 			staticRouteUrl: "http://dummyimage.com/200x200/dddddd/000000.png",
 			length: "",
             route: waypointRoutes[0],
-			etaTime: ""
+			etaTime: "",
+            weather: "img/sunny.png"
 		}),
 		new Day({
 			id: "day-3",
@@ -51,7 +52,8 @@ $(document).ready(function() {
 			staticRouteUrl: "http://dummyimage.com/200x200/aaaaaa/000000.png",
 			length: "",
 			route:waypointRoutes[1],
-			etaTime: ""
+			etaTime: "",
+            weather: "img/cloudy.png"
 		}),
 		new Day({
 			id: "day-7",
@@ -59,7 +61,8 @@ $(document).ready(function() {
 			staticRouteUrl: "http://dummyimage.com/200x200/ffffff/000000.png",
 			length: "",
 			route: waypointRoutes[2],
-			etaTime: ""
+			etaTime: "",
+            weather: "img/rainy.png"
 		})
 	]
 
