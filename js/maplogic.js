@@ -57,6 +57,16 @@ function showTrip(map, routeRequestParams, day) {
   );
 }
 
+function randomTrip(from) {
+  var waypoints = circleWaypoints(from);
+  return [pointToString(from),
+         'passThrough!' + pointToString(waypoints[0]),
+         'passThrough!' + pointToString(waypoints[1]),
+         'passThrough!' + pointToString(waypoints[2]),
+         'passThrough!' + pointToString(waypoints[3]),
+         pointToString(from)]
+}
+
 function calculateTripFrom(map, from) {
   var speed = 2.0;
 
