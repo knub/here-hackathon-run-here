@@ -1,0 +1,20 @@
+.body {
+	display: table;
+	background-color: green;
+	height: 100%;
+}
+.map-view {
+	background-color: blue;
+	float: none;
+	display: table-cell;
+	border: 1px solid;
+}
+
+.day-view {
+	background: #DDDDDD;
+	height: 100%;
+
+    float: none;
+    display: table-cell;
+    border: 1px solid;
+}
