@@ -4,7 +4,11 @@ $(document).ready(function() {
         lng: '13.108887'
     }
 
-    buildMap($("#map").get(0), from);
+    var randomPathsFunction = function(map) {
+      calculateTripFrom(map, from);
+    }
+
+    buildMap($("#map").get(0), from, randomPathsFunction);
 
 	var Day = Backbone.Model.extend({
 		defaults: {
@@ -22,7 +26,7 @@ $(document).ready(function() {
 			title: "Day 1",
 			staticRouteUrl: "http://dummyimage.com/200x200/dddddd/000000.png",
 			length: "4 km",
-            route: 
+            route: "",
 			etaTime: "20:31 min"
 		}),
 		new Day({
@@ -79,7 +83,12 @@ $(document).ready(function() {
 				})
 				planThis.$el.append(dayView.$el);
 				var mapEl = $(".day-maps").last()[0];
-				buildMap(mapEl, from);
+
+                var showTripFunction = function(map) {
+                    showTrip(map, getRouteParams(day.get("route") , 2.0));
+                }
+
+				buildMap(mapEl, from, showTripFunction);
 			});
 		}
 	});

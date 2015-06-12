@@ -1,7 +1,7 @@
 var behavior;
 var platform;
 
-function buildMap(mapContainer, from) {
+function buildMap(mapContainer, from, callback) {
   platform = new H.service.Platform({
     app_id: 'DemoAppId01082013GAL',
     app_code: 'AJKnXv84fjrb0KIHawS0Tg',
@@ -19,7 +19,7 @@ function buildMap(mapContainer, from) {
 
   behavior = new H.mapevents.Behavior(new H.mapevents.MapEvents(map));
 
-  calculateTripFrom(map, from);
+  callback(map);
 }
 
 function getRouteParams(waypoints, speed) {
@@ -43,9 +43,6 @@ function getRouteParams(waypoints, speed) {
 }
 
 function showTrip(map, routeRequestParams) {
-  var waypoints = [pointToString(mutatePoint(from)), pointToString(mutatePoint(from)), pointToString(mutatePoint(from))];
-  var permutations = permute(waypoints);
-
   var router = platform.getRoutingService();
 
   var successFunction = function(result) {
