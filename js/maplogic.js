@@ -51,10 +51,12 @@ function calculateRouteFromAtoB (platform) {
     routeRequestParams = {
       mode: 'shortest;pedestrian',
       representation: 'display',
-      waypoint0: '52.399057,13.108887', // St Paul's Cathedral
-      waypoint1: '52.408813,13.088856',  // Tate Modern
+      waypoint0: '52.399057,13.108887',
+      waypoint1: '52.408813,13.088856',
       routeattributes: 'waypoints,summary,shape,legs',
-      maneuverattributes: 'direction,action'
+      maneuverattributes: 'direction,action',
+      alternatives: 3,
+      legAttributes: "length"
     };
 
   router.calculateRoute(
