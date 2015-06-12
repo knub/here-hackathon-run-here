@@ -36,10 +36,12 @@
 		<div class="row">
 			<div class="day-map-view col-md-4">
 				<!--<img src="<%= staticRouteUrl %>" />-->
-				<div class="day-maps"></div>
+				<div id="<%= id %>" class="day-maps"></div>
 			</div>	
 			<div class="day-map-summary col-md-8">
-				This is the day summary
+				<strong><%= length %></strong><br />
+				You should finish in <em><%= etaTime %></em>
+				Weather forecast: sunny
 			</div>	
 		</div>
 	</div>

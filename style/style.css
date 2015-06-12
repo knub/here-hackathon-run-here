@@ -19,6 +19,12 @@
 	background: #F6F6F6;
 	cursor: pointer;
 }
+.day-map-summary {
+	font-size: 1.8em;
+}
+.day-map-summary strong {
+	font-size: 1.4em;
+}
 h3 {
 	margin 0;
 }

@@ -18,27 +18,30 @@ $(document).ready(function() {
 
 	var trainingPlan = new TrainingPlan([
 		new Day({
+			id: "day-1",
 			title: "Day 1",
 			staticRouteUrl: "http://dummyimage.com/200x200/dddddd/000000.png",
 			length: "4 km",
             route: 
+			etaTime: "20:31 min"
 		}),
 		new Day({
+			id: "day-3",
 			title: "Day 3",
 			staticRouteUrl: "http://dummyimage.com/200x200/aaaaaa/000000.png",
-			length: "7 km"
+			length: "7 km",
+			etaTime: "45:24 min"
 		}),
 		new Day({
+			id: "day-7",
 			title: "Day 7",
 			staticRouteUrl: "http://dummyimage.com/200x200/ffffff/000000.png",
-			length: "8 km"
+			length: "8 km",
+			etaTime: "50:67 min"
 		})
 	]);
 
 	var DayView = Backbone.View.extend({
-		tagName: "div",
-		className: "day-block",
-
 		events: {
 			"click .container": "map",
 		},
@@ -58,7 +61,6 @@ $(document).ready(function() {
 			var mapEl = this.$el.find(".day-maps").get(0);
 		    // buildMap($("#map").get(0), from);
 		    // buildMap($("#map").get(0), from);
-			buildMap(mapEl, from);
 		}
 	});
 
@@ -70,9 +72,14 @@ $(document).ready(function() {
 			this.$el.html("<h2>Day view</h2>");
 			var planThis = this;
 			this.model.forEach(function(day) {
-				var dayView = new DayView({ model: day })
+				var el = $("#" + day.get("id"))[0]
+				var dayView = new DayView({
+					model: day,
+					el: el
+				})
 				planThis.$el.append(dayView.$el);
-				// alert(day.get("title"));
+				var mapEl = $(".day-maps").last()[0];
+				buildMap(mapEl, from);
 			});
 		}
 	});
@@ -94,10 +101,10 @@ $(document).ready(function() {
  * see: http://developer.here.com/rest-apis/documentation/routing/topics/resource-type-calculate-route.html
  */
 function onMapSuccess(map, result) {
-  addRoute(result);
+  addRoute(map, result);
   var maneuver = result.response.route[0].leg[0].maneuver[0];
   var pos = {lat: maneuver.position.latitude, lng: maneuver.position.longitude};
-  addDraggableMarker(pos);
+  //addDraggableMarker(pos);
 }
 
 function onMapError(error) {
