@@ -2,7 +2,7 @@ var mapContainer;
 var behavior;
 var map;
 
-function buildMap(mapContainer) {
+function buildMap(mapContainer, from) {
   var platform = new H.service.Platform({
     app_id: 'DemoAppId01082013GAL',
     app_code: 'AJKnXv84fjrb0KIHawS0Tg',
@@ -19,9 +19,11 @@ function buildMap(mapContainer) {
   });
 
   behavior = new H.mapevents.Behavior(new H.mapevents.MapEvents(map));
+
+  calculateTripFrom(map, from);
 }
 
-function calculateTripFrom(from) {
+function calculateTripFrom(map, from) {
   var waypoints = [pointToString(mutatePoint(from)), pointToString(mutatePoint(from)), pointToString(mutatePoint(from))];
   var permutations = permute(waypoints);
   var speed = 2.0;
@@ -43,10 +45,15 @@ function calculateTripFrom(from) {
       returnelevation: true,                                // return elevation in shape
       walkSpeed: speed                                      // walking speed
   };
+
+  var success = function(result) {
+    onMapSuccess(map)
+  }
+
     router.calculateRoute(
       routeRequestParams,
-      onSuccess,
-      onError
+      onMapSuccess,
+      onMapError
     );
   }
 }
