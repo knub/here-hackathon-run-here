@@ -1,5 +1,8 @@
 $(document).ready(function() {
-    var theMap = buildMap($("#map").get(0));
+    var theMap = buildMap($("#map").get(0), {
+        lat: '52.399057',
+        lng: '13.108887'
+    });
 
 	var Day = Backbone.Model.extend({
 		defaults: {
@@ -74,10 +77,6 @@ $(document).ready(function() {
 		el: $(".day-view")
 	});
 
-  	calculateTripFrom ({
-        lat: '52.399057',
-        lng: '13.108887'
-    });
 });
 
 
@@ -89,13 +88,13 @@ $(document).ready(function() {
  *
  * see: http://developer.here.com/rest-apis/documentation/routing/topics/resource-type-calculate-route.html
  */
-function onSuccess(result) {
+function onMapSuccess(map, result) {
   addRoute(result);
   var maneuver = result.response.route[0].leg[0].maneuver[0];
   var pos = {lat: maneuver.position.latitude, lng: maneuver.position.longitude};
   addDraggableMarker(pos);
 }
 
-function onError(error) {
+function onMapError(error) {
   alert('Ooops!');
 }
