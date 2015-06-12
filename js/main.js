@@ -134,6 +134,14 @@ $(document).ready(function() {
 		},
 		render: function() {
 			console.log("RENDERING");
+			var highTraffic = getRandomInt(0, 10);
+			var park = getRandomInt(40, 90);
+			var street = 100 - highTraffic - park;
+
+			this.model.set("street", street);
+			this.model.set("highTraffic", highTraffic);
+			this.model.set("park", park);
+
 			this.$el.html(this.template(this.model.attributes));
 			var mapEl = this.$el.find(".day-maps").get(0);
 		}
