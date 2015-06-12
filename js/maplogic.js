@@ -47,16 +47,21 @@ function initMap() {
  * @param   {H.service.Platform} platform    A stub class to access HERE services
  */
 function calculateRouteFromAtoB (platform) {
+  var speed = 2.0;
+
+
   var router = platform.getRoutingService(),
     routeRequestParams = {
-      mode: 'shortest;pedestrian',
-      representation: 'display',
-      waypoint0: '52.399057,13.108887',
+      mode: 'shortest;pedestrian;park:1',                          // shotest/fastes , walking 
+      representation: 'display',                            //
+      waypoint0: '52.399057,13.108887',                     // first waypoint
       waypoint1: '52.408813,13.088856',
-      routeattributes: 'waypoints,summary,shape,legs',
-      maneuverattributes: 'direction,action',
-      alternatives: 3,
-      legAttributes: "length"
+      routeattributes: 'waypoints,summary,shape,legs',      // information of response route
+      maneuverattributes: 'direction,action',               // information of response maneavere
+      alternatives: 3,                                      // number of alternatives
+      legAttributes: "length",                              // legend information
+      returnelevation: true,                                // return elevation in shape
+      walkSpeed: speed,                                     // walking speed
     };
 
   router.calculateRoute(
