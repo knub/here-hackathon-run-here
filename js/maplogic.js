@@ -23,7 +23,7 @@ function buildMap(mapContainer, from) {
 }
 
 function calculateTripFrom(map, from) {
-  var waypoints = [pointToString(mutatePoint(from)), pointToString(mutatePoint(from)), pointToString(mutatePoint(from))];
+  var waypoints = [pointToString(mutatePoint(from)), pointToString(mutatePoint(from)), pointToString(mutatePoint(from)), pointToString(mutatePoint(from))];
   var permutations = permute(waypoints);
   var speed = 2.0;
 
@@ -39,7 +39,6 @@ function calculateTripFrom(map, from) {
       waypoint4: pointToString(from),
       routeattributes: 'waypoints,summary,shape,legs',      // information of response route
       maneuverattributes: 'direction,action',               // information of response maneavere
-      alternatives: 3,                                      // number of alternatives
       legAttributes: "length",                              // legend information
       returnelevation: true,                                // return elevation in shape
       walkSpeed: speed                                      // walking speed
@@ -61,7 +60,7 @@ function mutatePoint(point) {
   var newlng = parseFloat(point.lng);
   var newlat = parseFloat(point.lat);
 
-  var maxDist = 0.005;
+  var maxDist = 0.01;
   newlng += (Math.random() * 2.0 - 1.0) * maxDist; // mappting to [-maxDist;maxDist]
   newlat += (Math.random() * 2.0 - 1.0) * maxDist;
 
@@ -97,7 +96,7 @@ function permute(inputArr) {
  * Creates a H.map.Polyline from the shape of the route and adds it to the map.
  * @param {Object} route A route as received from the H.service.RoutingService
  */
-function addRouteShapeToMap(route){
+function addRouteShapeToMap(map, route){
   var strip = new H.geo.Strip(),
     routeShape = route.shape,
     polyline;
@@ -124,7 +123,7 @@ function addRouteShapeToMap(route){
  * Creates a series of H.map.Marker points from the route and adds them to the map.
  * @param {Object} route  A route as received from the H.service.RoutingService
  */
-function addManueversToMap(route){
+function addManueversToMap(map, route){
   var svgMarkup = '<svg width="18" height="18" ' +
     'xmlns="http://www.w3.org/2000/svg">' +
     '<circle cx="8" cy="8" r="8" ' +
@@ -163,14 +162,14 @@ function addManueversToMap(route){
   map.addObject(group);
 }
 
-function addRoute(result) {
+function addRoute(map, result) {
   var routes = result.response.route;
 
   for (var i = 0; i < routes.length; i++) {
     var route = routes[i];
 
-    addRouteShapeToMap(route);
-    addManueversToMap(route);
+    addRouteShapeToMap(map, route);
+    addManueversToMap(map, route);
   }
 }
 function getRandomColor() {

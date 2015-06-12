@@ -93,10 +93,10 @@ $(document).ready(function() {
  * see: http://developer.here.com/rest-apis/documentation/routing/topics/resource-type-calculate-route.html
  */
 function onMapSuccess(map, result) {
-  addRoute(result);
+  addRoute(map, result);
   var maneuver = result.response.route[0].leg[0].maneuver[0];
   var pos = {lat: maneuver.position.latitude, lng: maneuver.position.longitude};
-  addDraggableMarker(pos);
+  //addDraggableMarker(pos);
 }
 
 function onMapError(error) {
