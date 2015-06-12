@@ -8,7 +8,7 @@ $(document).ready(function() {
       calculateTripFrom(map, from);
     }
 
-    buildMap($("#map").get(0), from, randomPathsFunction);
+    var mainMap = buildMap($("#map").get(0), from, randomPathsFunction);
 
 	var Day = Backbone.Model.extend({
 		defaults: {
@@ -68,7 +68,10 @@ $(document).ready(function() {
 		},
 		template: _.template($("script.day-view").html()),
 		map: function() {
-			alert("This is your map!");
+            mainMap.getObjects().forEach(function(obj) { 
+                mainMap.removeObject(mainMap.getObjects()[0]); 
+            });
+            showTrip(mainMap, getRouteParams(this.model.get("route") , 2.0));
 		},
 
 		initialize: function() {

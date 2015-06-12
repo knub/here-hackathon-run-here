@@ -163,13 +163,10 @@ function addManueversToMap(map, route){
     '<circle cx="8" cy="8" r="8" ' +
       'fill="#1b468d" stroke="white" stroke-width="1"  />' +
     '</svg>',
-    dotIcon = new H.map.Icon(svgMarkup, {anchor: {x:8, y:8}}),
-    group = new  H.map.Group(),
-    i,
-    j;
+    dotIcon = new H.map.Icon(svgMarkup, {anchor: {x:8, y:8}});
 
   // Add a marker for each maneuver
-  for (i = 0;  i < route.leg.length; i += 1) {
+  for (var i = 0;  i < route.leg.length; i += 1) {
     
       // Get the next maneuver.
       maneuver = route.leg[i].maneuver[0];
@@ -179,7 +176,7 @@ function addManueversToMap(map, route){
         lng: maneuver.position.longitude} ,
         {icon: dotIcon});
       marker.instruction = maneuver.instruction;
-      group.addObject(marker);
+      map.addObject(marker);
 
       // Get the next maneuver.
       maneuver = route.leg[i].maneuver[route.leg[i].maneuver.length-1];
@@ -189,11 +186,8 @@ function addManueversToMap(map, route){
         lng: maneuver.position.longitude} ,
         {icon: dotIcon});
       marker.instruction = maneuver.instruction;
-      group.addObject(marker);
+      map.addObject(marker);
   }
-
-  // Add the maneuvers group to the map
-  map.addObject(group);
 }
 
 function addRoute(map, result) {
