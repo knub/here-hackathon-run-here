@@ -29,15 +29,65 @@ $(document).ready(function() {
 		}),
 		new Day({
 			title: "Day 3",
-			staticRouteUrl: "http://dummyimage.com/200x200/dddddd/000000.png",
+			staticRouteUrl: "http://dummyimage.com/200x200/aaaaaa/000000.png",
 			length: "7 km"
 		}),
 		new Day({
 			title: "Day 7",
-			staticRouteUrl: "http://dummyimage.com/200x200/dddddd/000000.png",
+			staticRouteUrl: "http://dummyimage.com/200x200/ffffff/000000.png",
 			length: "8 km"
 		})
 	]);
+
+	var DayView = Backbone.View.extend({
+		tagName: "div",
+		className: "day-block",
+
+		events: {
+			"click .day-map-view": "map",
+		},
+		template: _.template($("script.day-view").html()),
+		map: function() {
+			alert("This is your map!");
+		},
+
+		initialize: function() {
+			this.$el = $(this.el);
+			// this.listenTo(this.model, "change", this.render);
+			this.render();
+		},
+
+		render: function() {
+			this.$el.html(this.template(this.model.attributes));
+		}
+	});
+
+	var TrainingPlanView = Backbone.View.extend({
+		initialize: function() {
+			this.render();
+		},
+		render: function() {
+			this.$el.html("<h2>Day view</h2>");
+			var planThis = this;
+			this.model.forEach(function(day) {
+				var dayView = new DayView({ model: day })
+				planThis.$el.append(dayView.$el);
+				// alert(day.get("title"));
+			});
+		}
+	});
+
+	var trainingPlanView = new TrainingPlanView({
+		model: trainingPlan,
+		el: $(".day-view")
+	});
+
+
+
+
+
+
+
 });
 /**
  * This function will be called once the Routing REST API provides a response
