@@ -138,14 +138,14 @@ function addManueversToMap(route){
 }
 
 function addRoute(result) {
-  var route = result.response.route[0];
- /*
-  * The styling of the route response on the map is entirely under the developer's control.
-  * A representitive styling can be found the full JS + HTML code of this example
-  * in the functions below:
-  */
-  addRouteShapeToMap(route);
-  addManueversToMap(route);
+  var routes = result.response.route;
+
+  for (var i = 0; i < routes.length; i++) {
+    var route = routes[i];
+
+    addRouteShapeToMap(route);
+    addManueversToMap(route);
+  }
 }
 
 /**
