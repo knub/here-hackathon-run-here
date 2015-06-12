@@ -60,9 +60,9 @@ function showTrip(map, routeRequestParams, day) {
 function calculateTripFrom(map, from) {
   var speed = 2.0;
 
-  for (rotation of [{x: 1, y: 1}, {x: 1, y: -1}])
+  for (var i = 0; i < 3; ++i)
   {
-    var waypoints = circleWaypoints(from, rotation);
+    var waypoints = circleWaypoints(from);
     var router = platform.getRoutingService(),
     routeRequestParams = {
         mode: 'shortest;pedestrian',                          // shotest/fastes , walking 
@@ -91,14 +91,30 @@ function calculateTripFrom(map, from) {
   }
 }
 
-function circleWaypoints(point, rotation) {
-  var newlng = parseFloat(point.lng);
-  var newlat = parseFloat(point.lat);
+function circleWaypoints(point) {
+  var lng = parseFloat(point.lng);
+  var lat = parseFloat(point.lat);
+  var theta = Math.random() * 2 * Math.PI;
 
-  var maxDist = 0.01;
-  return [{lat: newlat + maxDist * rotation.x , lng: newlng},
-          {lat: newlat                        , lng: newlng + maxDist * rotation.y},
-          {lat: newlat + maxDist * -rotation.x, lng: newlng}];
+  var maxDist = 0.02;
+  var p1 = {lat: lat - maxDist, lng: lng};
+  var p2 = {lat: lat, lng: lng + maxDist};
+  var p3 = {lat: lat + maxDist, lng: lng};
+
+  return [rotatePoint(point, p1, theta), rotatePoint(point, p2, theta), rotatePoint(point, p3, theta)];
+}
+
+function rotatePoint(orig, point, theta) {
+  var ox = parseFloat(orig.lng); // x
+  var oy = parseFloat(orig.lat); // y
+
+  var x = parseFloat(point.lng);
+  var y = parseFloat(point.lat);
+
+  var nx = Math.cos(theta) * (x-ox) - Math.sin(theta) * (y-oy) + ox;
+  var ny = Math.sin(theta) * (x-ox) + Math.cos(theta) * (y-oy) + oy;
+
+  return {lng: nx, lat: ny};
 }
 
 function pointToString(point) {
