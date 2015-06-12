@@ -22,6 +22,44 @@ function buildMap(mapContainer, from) {
   calculateTripFrom(map, from);
 }
 
+function getRoute(waypoints, speed) {
+    routeRequestParams = {
+          mode: 'shortest;pedestrian',                          // shotest/fastes , walking 
+          representation: 'display',
+          waypoint0: waypoints[0],                       // first waypoint
+          waypoint1: waypoints[1],
+          waypoint2: waypoints[2],
+          waypoint3: waypoints[3],
+          waypoint4: waypoints[0],
+          routeattributes: 'waypoints,summary,shape,legs',      // information of response route
+          maneuverattributes: 'direction,action',               // information of response maneavere
+          alternatives: 3,                                      // number of alternatives
+          legAttributes: "length",                              // legend information
+          returnelevation: true,                                // return elevation in shape
+          walkSpeed: speed                                      // walking speed
+    };
+    return routeRequestParams;
+}
+
+function showTrip(map, routeRequestParams) {
+  var waypoints = [pointToString(mutatePoint(from)), pointToString(mutatePoint(from)), pointToString(mutatePoint(from))];
+  var permutations = permute(waypoints);
+  var speed = 2.0;
+
+  var router = platform.getRoutingService();
+  var routeRequestParams = getRoute()
+
+  var successFunction = function(result) {
+    onMapSuccess(map, result);
+  }
+
+  router.calculateRoute(
+    routeRequestParams,
+    successFunction,
+    onMapError
+  );
+}
+
 function calculateTripFrom(map, from) {
   var waypoints = [pointToString(mutatePoint(from)), pointToString(mutatePoint(from)), pointToString(mutatePoint(from))];
   var permutations = permute(waypoints);

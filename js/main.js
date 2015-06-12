@@ -20,7 +20,8 @@ $(document).ready(function() {
 		new Day({
 			title: "Day 1",
 			staticRouteUrl: "http://dummyimage.com/200x200/dddddd/000000.png",
-			length: "4 km"
+			length: "4 km",
+            route: 
 		}),
 		new Day({
 			title: "Day 3",
@@ -39,7 +40,7 @@ $(document).ready(function() {
 		className: "day-block",
 
 		events: {
-			"click .day-block": "map",
+			"click .container": "map",
 		},
 		template: _.template($("script.day-view").html()),
 		map: function() {
