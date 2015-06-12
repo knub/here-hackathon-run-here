@@ -4,7 +4,7 @@
 
 // set up containers for the map  + panel
 var mapContainer = document.getElementById('map'),
-  routeInstructionsContainer = document.getElementById('panel');
+  dayViewContainer = document.getElementById('day-view');
 
 //Step 1: initialize communication with the platform
 var platform = new H.service.Platform({
