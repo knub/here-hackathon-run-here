@@ -27,7 +27,7 @@ function initMap() {
   //Step 2: initialize a map - this map is centered over Berlin
   map = new H.Map(mapContainer,
     defaultLayers.normal.map,{
-    center: {lat:52.5160, lng:13.3779},
+    center: {lat:52.399057, lng:13.108887},
     zoom: 13
   });
 
@@ -50,8 +50,8 @@ function calculateRouteFromAtoB (platform) {
     routeRequestParams = {
       mode: 'shortest;pedestrian',
       representation: 'display',
-      waypoint0: '51.5141,-0.0999', // St Paul's Cathedral
-      waypoint1: '51.5081,-0.0985',  // Tate Modern
+      waypoint0: '52.399057,13.108887', // St Paul's Cathedral
+      waypoint1: '52.408813,13.088856',  // Tate Modern
       routeattributes: 'waypoints,summary,shape,legs',
       maneuverattributes: 'direction,action'
     };
