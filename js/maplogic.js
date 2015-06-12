@@ -45,13 +45,13 @@ function calculateTripFrom(map, from) {
       walkSpeed: speed                                      // walking speed
     };
 
-    var success = function(result) {
+    var successFunction = function(result) {
       onMapSuccess(map, result);
     }
 
     router.calculateRoute(
       routeRequestParams,
-      onMapSuccess,
+      successFunction,
       onMapError
     );
   }

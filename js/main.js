@@ -4,7 +4,7 @@ $(document).ready(function() {
         lng: '13.108887'
     }
 
-    var theMap = buildMap($("#map").get(0), from);
+    buildMap($("#map").get(0), from);
 
 	var Day = Backbone.Model.extend({
 		defaults: {
@@ -55,6 +55,8 @@ $(document).ready(function() {
 		render: function() {
 			this.$el.html(this.template(this.model.attributes));
 			var mapEl = this.$el.find(".day-maps").get(0);
+		    // buildMap($("#map").get(0), from);
+		    // buildMap($("#map").get(0), from);
 			buildMap(mapEl, from);
 		}
 	});
